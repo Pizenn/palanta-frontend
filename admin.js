@@ -51,7 +51,7 @@ async function renderOverview() {
 
     try {
         const token = localStorage.getItem('token');
-        const headers = { 'Authorization': `Bearer ${token}` };
+        const headers = { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "true" };
 
         // 1. Ambil Data Statistik Utama
         const statsRes = await fetch(`${API_BASE_URL}/admin/dashboard-stats`, { headers });
