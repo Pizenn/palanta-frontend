@@ -290,7 +290,7 @@ if (popupLoginForm) {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', "ngrok-skip-browser-warning": "true" },
                 body: JSON.stringify({ email, password })
             });
 
@@ -863,7 +863,7 @@ if (registerForm) {
         try {
             const response = await fetch(`${API_BASE_URL}/auth/register`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', "ngrok-skip-browser-warning": "true" },
                 body: JSON.stringify({ name, email, password })
             });
 

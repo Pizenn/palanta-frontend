@@ -203,7 +203,7 @@ async function renderPemesanan() {
         const token = localStorage.getItem('token');
         
         const response = await fetch(`${API_BASE_URL}/admin/bookings`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "true" }
         });
 
         if (!response.ok) throw new Error("Gagal mengambil data");
@@ -443,7 +443,7 @@ async function renderPembayaran() {
     try {
         const token = localStorage.getItem('token');
         const response = await fetch(`${API_BASE_URL}/payments`, {
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "true" }
         });
         const payments = await response.json();
 
@@ -823,6 +823,7 @@ if (roomForm) {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: method,
                 headers: {
+                    "ngrok-skip-browser-warning": "true",
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
@@ -865,7 +866,8 @@ window.deleteRoom = async (id) => {
         const response = await fetch(`${API_BASE_URL}/rooms/${id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
+                "ngrok-skip-browser-warning": "true"
             }
         });
 
@@ -1120,6 +1122,7 @@ if (voucherForm) {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: method,
                 headers: {
+                    "ngrok-skip-browser-warning": "true",
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
@@ -1195,7 +1198,7 @@ if (btnConfirmDelete) {
         try {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
+                headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "true" }
             });
 
             if (response.ok) {
@@ -1279,7 +1282,7 @@ window.processPaymentConfirmation = async () => {
         const token = localStorage.getItem('token');
         const response = await fetch(`${API_BASE_URL}/payments/${paymentIdToConfirm}/confirm`, {
             method: 'PUT',
-            headers: { 'Authorization': `Bearer ${token}` }
+            headers: { 'Authorization': `Bearer ${token}`, "ngrok-skip-browser-warning": "true" }
         });
 
         const result = await response.json();

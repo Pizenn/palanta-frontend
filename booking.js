@@ -303,6 +303,7 @@ const renderStep1 = () => {
                 const response = await fetch(`${API_BASE_URL}/bookings`, {
                     method: 'POST',
                     headers: { 
+                        "ngrok-skip-browser-warning": "true",
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}` 
                     },
