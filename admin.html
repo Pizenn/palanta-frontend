@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Palanta House</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="admin-body">
+    <div class="admin-header">
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div>
+                    <h1
+                        style="font-family: var(--font-serif); font-size: 20px; color: white; margin: 0; line-height: 1.2;">
+                        Palanta House</h1>
+                    <p style="font-size: 12px; opacity: 0.8; margin: 0;">Admin Dashboard</p>
+                </div>
+            </div>
+
+<button id="adminLogoutBtn" class="btn btn-outline" style="border-color: rgba(255,255,255,0.3); color: white; font-size: 13px; padding: 8px 16px; display: flex; align-items: center; gap: 8px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+        <polyline points="16 17 21 12 16 7"></polyline>
+        <line x1="21" y1="12" x2="9" y2="12"></line>
+    </svg>
+    Keluar
+</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="admin-nav-container">
+            <div class="admin-nav-tab active" data-tab="overview">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Overview
+            </div>
+            <div class="admin-nav-tab" data-tab="pemesanan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Pemesanan
+            </div>
+            <div class="admin-nav-tab" data-tab="pembayaran">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+                Pembayaran
+            </div>
+            <div class="admin-nav-tab" data-tab="kamar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 22h20"></path>
+                    <path d="M20 22V7l-8-5-8 5v15"></path>
+                    <path d="M12 16.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path>
+                </svg>
+                Kamar
+            </div>
+            <div class="admin-nav-tab" data-tab="voucher">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+    Voucher
+            </div>
+        </div>
+
+        <div id="adminContent">
+            <!-- Dynamic Content -->
+        </div>
+    </div>
+    <div id="roomModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle" class="modal-title">Tambah Kamar Baru</h3>
+            <button onclick="closeRoomModal()" class="close-btn">&times;</button>
+        </div>
+
+        <form id="roomForm">
+            <input type="hidden" id="roomId">
+
+            <div class="form-group">
+                <label class="form-label">Nama Kamar</label>
+                <input type="text" id="inputNama" class="form-control" placeholder="Contoh: Deluxe Garden View" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Harga per Malam (Rp)</label>
+                        <input type="number" id="inputHarga" class="form-control" placeholder="500000" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Unit</label>
+                        <input type="number" id="inputStok" class="form-control" placeholder="5" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Kapasitas (Orang)</label>
+                <input type="number" id="inputKapasitas" class="form-control" placeholder="2" required>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Deskripsi Singkat</label>
+                <textarea id="inputDeskripsi" class="form-control" rows="3" placeholder="Tulis deskripsi kamar yang menarik..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Fasilitas (Pisahkan dengan koma)</label>
+                <input type="text" id="inputFasilitas" class="form-control" placeholder="AC, WiFi, TV, Sarapan">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Link Gambar (URL)</label>
+                <input type="url" id="inputGambar" class="form-control" placeholder="https://contoh.com/gambar.jpg" required>
+                <small style="color:#666; font-size:11px;">*Masukkan link gambar langsung</small>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closeRoomModal()" class="btn btn-outline" style="flex:1;">Batal</button>
+                <button type="submit" class="btn btn-primary" style="flex:1;">Simpan Data</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="voucherModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="voucherModalTitle" class="modal-title">Buat Voucher Baru</h3>
+            <button onclick="closeVoucherModal()" class="close-btn">&times;</button>
+        </div>
+
+        <form id="voucherForm">
+            <input type="hidden" id="voucherId">
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Kode Voucher (Unik)</label>
+                        <input type="text" id="vCode" class="form-control" placeholder="LEBARAN2025" required style="text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Tipe Diskon</label>
+                        <select id="vType" class="form-control">
+                            <option value="PERCENT">Persentase (%)</option>
+                            <option value="FIXED">Potongan Harga (Rp)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Nilai Diskon</label>
+                        <input type="number" id="vValue" class="form-control" placeholder="Contoh: 10 atau 50000" required>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Min. Transaksi (Rp)</label>
+                        <input type="number" id="vMinTrans" class="form-control" placeholder="0 jika tanpa minimal" value="0">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Periode Berlaku</label>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <input type="date" id="vStartDate" class="form-control" required>
+                    <span style="color:#666">-</span>
+                    <input type="date" id="vEndDate" class="form-control" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label class="form-label">Kuota Pemakaian</label>
+                        <input type="number" id="vLimit" class="form-control" placeholder="100" required>
+                    </div>
+                </div>
+                <div class="form-col" style="display: flex; align-items: center; padding-top: 28px;">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">
+                        <input type="checkbox" id="vNewUser" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                        <span style="font-size: 14px; color: #374151;">Khusus User Baru</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" onclick="closeVoucherModal()" class="btn btn-outline" style="flex: 1;">Batal</button>
+                <button type="submit" class="btn btn-primary" style="flex: 1;">Simpan Voucher</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="toastContainer" class="toast-container"></div>
+
+<div id="confirmModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 400px; text-align: center; padding: 40px 30px;">
+        <div style="width: 60px; height: 60px; background: #fee2e2; border-radius: 50%; color: #dc2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+        </div>
+        
+        <h3 id="confirmTitle" style="margin: 0 0 10px 0; font-size: 20px; font-weight: 700; color: #1f2937;">Konfirmasi Hapus</h3>
+        <p id="confirmDesc" style="color: #6b7280; font-size: 14px; margin-bottom: 24px;">Apakah Anda yakin ingin menghapus data ini?</p>
+        
+        <div style="display: flex; gap: 12px; justify-content: center;">
+            <button onclick="closeConfirmModal()" class="btn" style="background: white; border: 1px solid #d1d5db; color: #374151;">Batal</button>
+            <button id="btnConfirmDelete" class="btn" style="background: #dc2626; color: white; border: none; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);">Ya, Hapus</button>
+        </div>
+    </div>
+</div>
+
+<div id="logoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+        
+        <div style="width: 60px; height: 60px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </div>
+
+        <h3 style="margin: 0 0 10px; color: #1f2937; font-size: 20px; font-weight: 700;">Konfirmasi Keluar</h3>
+        <p style="color: #6b7280; margin-bottom: 25px; font-size: 15px;">Apakah Anda yakin ingin keluar dari Dashboard Admin?</p>
+
+        <div style="display: flex; gap: 12px;">
+            <button id="btnCancelLogout" style="flex: 1; padding: 12px; border: 1px solid #e5e7eb; background: white; color: #374151; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+                Batal
+            </button>
+            <button id="btnConfirmLogout" style="flex: 1; padding: 12px; border: none; background: #dc2626; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; box-shadow: 0 2px 5px rgba(220, 38, 38, 0.3);">
+                Ya, Keluar
+            </button>
+        </div>
+    </div>
+</div>
+    <script type="module" src="/admin.js"></script>
+</body>
+
+</html>

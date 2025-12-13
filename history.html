@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Pemesanan - Palanta House</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; color: #1e293b; margin:0; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 16px; font-size: 13px; color: #64748b; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 16px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        tr:last-child td { border-bottom: none; }
+        
+        .badge { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; display: inline-block; }
+        .bg-green { background: #ecfdf5; color: #059669; }
+        .bg-yellow { background: #fffbeb; color: #d97706; }
+        .bg-red { background: #fef2f2; color: #dc2626; }
+        
+        .btn-back { text-decoration: none; color: #64748b; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .btn-back:hover { color: #00A8A8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <div>
+                <a href="index.html" class="btn-back">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Kembali ke Beranda
+                </a>
+                <h1 style="margin: 10px 0 0 0; font-size: 28px;">Riwayat Pemesanan</h1>
+                <p style="color: #64748b; margin: 5px 0;">Daftar semua perjalanan menginap Anda.</p>
+            </div>
+            <div style="width: 48px; height: 48px; background: #e0f2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #00A8A8;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            </div>
+        </div>
+
+        <div class="card">
+            <div id="loading" style="text-align: center; padding: 40px; color: #94a3b8;">Memuat data...</div>
+            <div style="overflow-x: auto;">
+                <table id="historyTable" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>ID Booking</th>
+                            <th>Kamar</th>
+                            <th>Tanggal</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            <div id="emptyState" style="display: none; text-align: center; padding: 60px;">
+                <div style="font-size: 40px; margin-bottom: 10px;">📭</div>
+                <h3 style="margin: 0; color: #334155;">Belum ada riwayat</h3>
+                <p style="color: #94a3b8;">Anda belum pernah memesan kamar.</p>
+                <a href="index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #00A8A8; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">Pesan Sekarang</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = "http://localhost:5000/api"; // Sesuaikan port
+
+async function loadHistory() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert("Silakan login terlebih dahulu.");
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/bookings`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const rawData = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(rawData.message || "Gagal memuat data");
+                }
+
+                document.getElementById('loading').style.display = 'none';
+
+                const bookings = Array.isArray(rawData) ? rawData : (rawData.data || []);
+
+                // [FILTER PENTING] 
+                // Buang data sampah yang tidak punya tanggal atau tidak punya kamar (ID #1, #2, dll)
+                const validBookings = bookings.filter(item => {
+                    return item.check_in_date && item.roomType; 
+                });
+
+                if (validBookings.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                } else {
+                    document.getElementById('historyTable').style.display = 'table';
+                    const tbody = document.getElementById('tableBody');
+                    
+                    // Gunakan 'validBookings' bukan 'bookings'
+                    tbody.innerHTML = validBookings.map(item => {
+                        
+                        // Format Tanggal
+                        const formatDate = (dateStr) => {
+                            if (!dateStr) return '-';
+                            const d = new Date(dateStr);
+                            return isNaN(d.getTime()) ? '-' : d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+                        };
+
+                        const checkIn = formatDate(item.check_in_date);
+                        const checkOut = formatDate(item.check_out_date);
+                        
+                        // Format Harga
+                        const price = item.final_price || item.total_price || 0;
+                        const total = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+                        
+                        // Status Badge
+                        let badgeClass = 'bg-yellow';
+                        let statusText = String(item.status || 'unknown').toUpperCase();
+                        
+                        if(statusText === 'CONFIRMED' || statusText === 'SUCCESS') badgeClass = 'bg-green';
+                        if(statusText === 'CANCELLED' || statusText === 'FAILED' || statusText === 'DENIED') badgeClass = 'bg-red';
+
+                        const roomName = item.roomType ? item.roomType.name : 'Kamar';
+
+                        // Format ID (Ambil 6 karakter terakhir)
+                        const displayId = String(item.id).length > 10 ? String(item.id).slice(-6) : String(item.id);
+
+                        return `
+                            <tr>
+                                <td style="font-family: monospace; color: #64748b;">#${displayId}</td>
+                                <td style="font-weight: 600; color: #334155;">${roomName}</td>
+                                <td>${checkIn} → ${checkOut}</td>
+                                <td style="font-weight: 700; color: #00A8A8;">${total}</td>
+                                <td><span class="badge ${badgeClass}">${statusText}</span></td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('emptyState').innerHTML = `
+                    <h3 style="color:red">Terjadi Kesalahan</h3>
+                    <p>${error.message}</p>
+                `;
+            }
+        }
+        loadHistory();
+    </script>
+</body>
+</html>

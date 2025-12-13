@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palanta House - Homestay Modern</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="glass dashboard-nav" style="position: fixed; top: 0; width: 100%; z-index: 100; padding: 18px 0; box-shadow: 0 4px 24px rgba(0,168,168,0.12), 0 1.5px 0 rgba(0,168,168,0.08); border-bottom: 2px solid var(--primary); background: linear-gradient(90deg, #e0f7fa 0%, #ffffff 100%);">
+        <div class="container flex justify-between items-center">
+            <div class="flex items-center gap-3 logo-container">
+                <div style="width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden;">
+                    <img src="public/images/placeholder.png" alt="Logo Placeholder" style="width: 28px; height: 28px; object-fit: contain;" />
+                </div>
+                <div style="margin-left: 12px;">
+                    <h2 style="font-size: 20px; line-height: 1; color: #00b894;">Palanta <span style="font-style: italic; font-weight: 400; color: #00b894;">Homestay</span></h2>
+                    <p style="font-size: 12px; color: var(--text-light);" id="userStatus">Silakan login</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2" id="authBtnContainer" style="margin-left: auto; gap: 16px;">
+                <button id="loginBtn" class="btn btn-primary"
+                    style="font-size: 13px; padding: 6px 18px; display: none;">Login</button>
+                <button id="registerBtn" class="btn btn-outline"
+                    style="font-size: 13px; padding: 6px 18px; border-color: var(--primary); color: var(--primary); background: white; display: none;">
+                    Daftar</button>
+            </div>
+
+            <div class="dropdown" id="userDropdown" style="display: none;">
+                <button class="btn btn-outline dropdown-toggle"
+                    style="border-color: var(--primary); color: var(--primary); font-size: 14px; padding: 8px 16px;">
+<span class="flex items-center gap-2">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+
+    <span id="navUserName">User</span>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+</span>
+                </button>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item" onclick="window.location.href='history.html'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        Riwayat
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <div class="dropdown-item" id="logoutBtn" style="color: #ef4444; cursor: pointer;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Keluar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header style="height: 50vh; position: relative; overflow: hidden; margin-top: 0;">
+        <div class="slider-container" style="height: 100%; width: 100%;">
+            <div class="slide active"
+                style="background-image: url('/images/hero-1.png'); height: 100%; background-size: cover; background-position: center; position: absolute; top: 0; left: 0; width: 100%; transition: opacity 0.5s ease-in-out; opacity: 1;">
+                <div class="absolute inset-0" style="background: rgba(0,0,0,0.35); width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+        <div
+            style="position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); padding: 60px 0 30px;">
+            <div class="container text-center animate-slide-up">
+                <h1 style="color: white; font-size: 44px; margin-bottom: 12px; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">Palanta Homestay</h1>
+                <p style="color: rgba(255,255,255,0.98); font-size: 28px; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">"Sakato di Rumah, Sakato di Hati"</p>
+                <p style="color: rgba(255,255,255,0.90); font-size: 20px; text-shadow: 1px 1px 6px rgba(0,0,0,0.7);">Homestay modern nan nyaman, bersahabat di ranah Minang.</p>
+            </div>
+        </div>
+
+    </header>
+
+    <!-- Promo Section -->
+    <section id="promos" class="container"
+        style="margin-top: 40px; position: relative; z-index: 20; margin-bottom: 60px;">
+
+        <!-- Promo Banner -->
+        <div
+            style="margin-bottom: 40px; width: 100%; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            <img src="/images/hero-promo.png" alt="Promo Banner" style="width: 100%; height: auto; display: block;">
+        </div>
+
+        <div class="promo-grid-wrapper" style="position: relative;">
+            <button id="promoPrev" class="promo-nav promo-prev" aria-label="Sebelumnya">‹</button>
+            <div class="promo-grid" id="promoGrid">
+            </div>
+            <button id="promoNext" class="promo-nav promo-next" aria-label="Berikutnya">›</button>
+        </div>
+    </section>
+
+    <section id="kamar" class="container" style="margin-top: 40px; margin-bottom: 60px;">
+        <div class="text-center" style="margin-bottom: 40px;">
+            <h2 style="font-size: 32px; margin-bottom: 8px;">Pilih Kamar Favorit Anda</h2>
+            <p style="color: var(--text-light);">Temukan kenyamanan terbaik untuk pengalaman menginap yang tak
+                terlupakan</p>
+        </div>
+
+        <div id="room-grid" class="grid"
+            style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+            <!-- Rooms injected by JS -->
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalBody">
+                <!-- Dynamic Content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="login-card animate-slide-up" style="background: white; padding: 40px;">
+            <span class="close-modal" onclick="closeLoginModal()" style="color: #333; right: 20px; top: 20px;">&times;</span>
+            <div class="logo-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <h1 style="font-size: 28px; margin-bottom: 5px;">Palanta <span
+                    style="font-style: italic; font-weight: 400;">House</span></h1>
+            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 30px;">Homestay Premium untuk Anda</p>
+
+            <form id="popupLoginForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" placeholder="nama@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Masukkan password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+            </form>
+
+            <p style="margin-top: 20px; font-size: 13px; color: var(--text-light);">
+                Belum punya akun? <a href="#" onclick="openRegisterModal(); return false;" class="text-primary">Daftar Sekarang</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div id="registerModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 450px;">
+            <span class="close-modal" onclick="closeRegisterModal()">&times;</span>
+
+            <div class="logo-icon" style="margin-bottom: 15px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+
+            <h2 style="font-size: 24px; margin-bottom: 5px; text-align: center;">Daftar Akun Baru</h2>
+            <p style="color: var(--text-light); font-size: 14px; margin-bottom: 25px; text-align: center;">
+                Bergabunglah dengan Palanta House
+            </p>
+
+            <form id="registerForm">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="regEmail" class="form-control" placeholder="nama@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="regName" class="form-control" placeholder="Masukkan nama lengkap"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="regPassword" class="form-control" placeholder="Minimal 6 karakter"
+                        required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label>Konfirmasi Password</label>
+                    <input type="password" id="regConfirmPassword" class="form-control"
+                        placeholder="Ulangi password" required>
+                </div>
+
+                <div id="passwordError"
+                    style="color: #ef4444; font-size: 12px; margin-bottom: 15px; display: none;">
+                    Password tidak cocok!
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Daftar Sekarang</button>
+            </form>
+
+            <p style="margin-top: 20px; font-size: 13px; color: var(--text-light); text-align: center;">
+                Sudah punya akun? <a href="#" onclick="closeRegisterModal(); openLoginModal();"
+                    class="text-primary">Masuk</a>
+            </p>
+        </div>
+    </div>
+
+<div id="bookingModal" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+    <div class="modal-content" style="background:white; padding:30px; border-radius:16px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="margin:0; font-size:20px; font-weight:700;">Form Pemesanan</h3>
+            <button onclick="closeBookingModal()" style="background:none; border:none; font-size:24px; cursor:pointer;">&times;</button>
+        </div>
+
+        <form id="bookingForm">
+            <input type="hidden" id="bookRoomId">
+            <input type="hidden" id="bookPricePerNight">
+
+            <div style="background:#f0fdfa; padding:15px; border-radius:10px; margin-bottom:20px; border:1px solid #ccfbf1;">
+                <h4 id="bookRoomName" style="margin:0 0 5px 0; color:#0f766e;">Nama Kamar</h4>
+                <div id="bookRoomPrice" style="font-size:14px; color:#555;">Rp 0 / malam</div>
+            </div>
+
+            <div class="form-row" style="display:flex; gap:15px; margin-bottom:15px;">
+                <div style="flex:1;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Check-In</label>
+                    <input type="date" id="bookCheckIn" class="form-control" required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                </div>
+                <div style="flex:1;">
+                    <label style="display:block; font-size:13px; font-weight:600; margin-bottom:5px;">Check-Out</label>
+                    <input type="date" id="bookCheckOut" class="form-control" required style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+                </div>
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <input type="text" id="bookName" placeholder="Nama Lengkap" required class="form-control" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+                <input type="email" id="bookEmail" placeholder="Alamat Email" required class="form-control" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px; margin-bottom:10px;">
+                <input type="tel" id="bookPhone" placeholder="Nomor WhatsApp" required class="form-control" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:8px;">
+            </div>
+
+            <div style="border-top:1px dashed #ddd; padding-top:15px; margin-top:15px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;">
+                    <span>Lama Menginap:</span>
+                    <span id="summaryNights">0 Malam</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:700; color:var(--primary);">
+                    <span>Total Harga:</span>
+                    <span id="summaryTotal">Rp 0</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; padding:12px; margin-top:20px; font-weight:bold; border-radius:8px; border:none; background:#00A8A8; color:white; cursor:pointer;">
+                Konfirmasi Booking
+            </button>
+        </form>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Palanta <span>House</span></h3>
+                    <p>Homestay modern dengan kenyamanan seperti di rumah sendiri. Lokasi strategis dan
+                        fasilitas lengkap untuk liburan Anda.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">Beranda</a></li>
+                        <li><a href="#kamar">Kamar</a></li>
+                        <li><a href="#promos">Promo</a></li>
+                        <li><a href="#">Tentang Kami</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Hubungi Kami</h4>
+                    <p>Jl. Raya Padang - Bukittinggi No. 123</p>
+                    <p>Sumatera Barat, Indonesia</p>
+                    <p>Email: info@palantahouse.com</p>
+                    <p>Telp: +62 812 3456 7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Palanta House. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Kembali ke atas" style="bottom: 100px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Hubungi Kami Button -->
+    <button id="hubungiKamiBtn" class="hubungi-kami-btn" aria-label="Hubungi Kami" style="bottom: 32px; right: 32px; position: fixed;" onclick="window.open('https://wa.me/6281234567890?text=Halo%20Palanta%20House,%20saya%20ingin%20bertanya', '_blank')">
+        Hubungi Kami
+    </button>
+
+<div id="toast-container"></div>
+
+<div id="userLogoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: white; padding: 30px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+        
+        <div style="width: 60px; height: 60px; background: #ccfbf1; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#0f766e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+        </div>
+
+        <h3 style="margin: 0 0 10px; color: #1f2937; font-size: 20px; font-weight: 700;">Ingin Keluar?</h3>
+        <p style="color: #6b7280; margin-bottom: 25px; font-size: 15px;">Anda harus login kembali untuk melakukan pemesanan.</p>
+
+        <div style="display: flex; gap: 12px;">
+            <button id="btnUserCancel" style="flex: 1; padding: 12px; border: 1px solid #e5e7eb; background: white; color: #374151; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s;">
+                Batal
+            </button>
+            <button id="btnUserConfirm" style="flex: 1; padding: 12px; border: none; background: #0f766e; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; box-shadow: 0 2px 5px rgba(15, 118, 110, 0.3);">
+                Ya, Keluar
+            </button>
+        </div>
+    </div>
+</div>
+
+    <script type="module" src="/main.js"></script>
+</body>
+
+</html>
