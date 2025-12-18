@@ -1,5 +1,6 @@
 import { API_BASE_URL } from './config.js';
 import { openLoginModal } from './main.js';
+import { showNotification } from './main.js';
 
 // --- LOAD SCRIPT MIDTRANS ---
 async function loadMidtransScript() {
@@ -57,7 +58,8 @@ export function openBookingModal(room) {
     // 1. Cek Login (Wajib ada Token)
     const token = localStorage.getItem('token');
     if (!token) {
-        alert("Silakan login terlebih dahulu untuk melakukan pemesanan.");
+        showNotification("Silakan Login Terlebih Dahulu", 'netral');
+        //alert("Silakan login terlebih dahulu untuk melakukan pemesanan.");
         window.openLoginModal();
         return;
     }

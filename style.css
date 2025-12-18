@@ -1365,7 +1365,7 @@ body.admin-body {
     position: fixed;
     top: 24px;
     right: 32px;
-    z-index: 2000;
+    z-index: 2147483647 !important;
     background: #10b981;
     color: #fff;
     padding: 16px 32px;
@@ -1391,6 +1391,10 @@ body.admin-body {
 
 .popup-notif.error {
     background: #ef4444;
+}
+
+.popup-notif.netral {
+    background: #626f78;
 }
 
 /* Centered Popup Notification Styles */
@@ -1615,5 +1619,6 @@ body.admin-body {
 .modal-footer { display: flex; gap: 10px; margin-top: 20px; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; }
+
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }

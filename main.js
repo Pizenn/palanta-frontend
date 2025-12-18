@@ -219,7 +219,7 @@ function renderRooms() {
 }
 
 // Notification Logic
-function showNotification(message, type = 'success') {
+export function showNotification(message, type = 'success') {
     let notif = document.createElement('div');
     notif.className = `popup-notif ${type}`;
     notif.innerHTML = `<span>${message}</span>`;
@@ -315,7 +315,7 @@ if (popupLoginForm) {
                 // Reset state booking
                 pendingBookingRoomId = null;
             } else {
-                showNotification(result.message || 'Email atau password salah.', 'error');
+                showNotification('Email atau password salah.', 'error');
             }
         } catch (error) {
             console.error('Error:', error);
