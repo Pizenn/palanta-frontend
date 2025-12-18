@@ -1,4 +1,5 @@
 import { API_BASE_URL } from './config.js';
+import { openLoginModal } from './main.js';
 
 // --- LOAD SCRIPT MIDTRANS ---
 async function loadMidtransScript() {
@@ -57,7 +58,7 @@ export function openBookingModal(room) {
     const token = localStorage.getItem('token');
     if (!token) {
         alert("Silakan login terlebih dahulu untuk melakukan pemesanan.");
-        window.location.href = 'login.html';
+        window.openLoginModal = openLoginModal;
         return;
     }
 
