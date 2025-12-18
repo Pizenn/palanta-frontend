@@ -94,7 +94,7 @@ function showAnimatedModal(modalId) {
         }
     }
 }
-function openLoginModal() {
+export function openLoginModal() {
     showAnimatedModal('loginModal');
 }
 function closeLoginModal() {
