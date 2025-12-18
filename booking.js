@@ -58,7 +58,7 @@ export function openBookingModal(room) {
     const token = localStorage.getItem('token');
     if (!token) {
         alert("Silakan login terlebih dahulu untuk melakukan pemesanan.");
-        window.openLoginModal = openLoginModal;
+        window.openLoginModal();
         return;
     }
 
