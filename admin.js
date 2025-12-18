@@ -28,6 +28,21 @@ checkAdminAuth();
 import { API_BASE_URL } from './config.js';
 import './style.css';
 // Mock Data
+const bookings = [
+    { id: '#BK001', guest: 'Budi Santoso', room: 'Deluxe Garden View', checkIn: '15 Nov', checkOut: '17 Nov', total: 2000000, status: 'Terkonfirmasi', nights: 2 },
+    { id: '#BK002', guest: 'Siti Aminah', room: 'Premium Villa', checkIn: '20 Nov', checkOut: '23 Nov', total: 6000000, status: 'Pending', nights: 3 },
+    { id: '#BK003', guest: 'John Doe', room: 'Standard Room', checkIn: '01 Des', checkOut: '05 Des', total: 1000000, status: 'Terkonfirmasi', nights: 4 },
+    { id: '#BK004', guest: 'Rina Wijaya', room: 'Family Room', checkIn: '10 Des', checkOut: '12 Des', total: 1500000, status: 'Dibatalkan', nights: 2 },
+    { id: '#BK005', guest: 'Andi Pratama', room: 'Suite', checkIn: '15 Des', checkOut: '18 Des', total: 3500000, status: 'Berlangsung', nights: 3 },
+    { id: '#BK006', guest: 'Dewi Lestari', room: 'Deluxe Garden View', checkIn: '20 Des', checkOut: '22 Des', total: 2000000, status: 'Pending', nights: 2 }
+];
+
+const stats = {
+    totalPemesanan: 6,
+    pembayaranPending: 2,
+    terkonfirmasi: 2,
+    totalPendapatan: '12.5jt'
+};
 
 async function renderOverview() {
     const content = document.getElementById('adminContent');
@@ -725,7 +740,7 @@ if (btnConfirmLogout) {
             localStorage.removeItem('user');
             
             // Redirect ke halaman login/home
-            window.location.href = '/index.html'; 
+            window.location.href = './index.html'; 
         }, 800); // Beri sedikit delay agar terasa smooth
     });
 }
@@ -743,9 +758,6 @@ const roomForm = document.getElementById('roomForm');
 
 // 2. Fungsi Buka Modal (Tambah / Edit)
 window.openRoomModal = (data = null) => {
-    const roomModal = document.getElementById('roomModal');
-    const roomForm = document.getElementById('roomForm');
-    
     roomModal.classList.add('active'); // Animasi Masuk
 
     if (data) {
@@ -753,6 +765,7 @@ window.openRoomModal = (data = null) => {
         document.getElementById('modalTitle').textContent = 'Edit Kamar';
         document.getElementById('roomId').value = data.id;
         
+        // Perhatikan ID di sini sudah disesuaikan dengan HTML Anda (inputNama, inputHarga, dll)
         document.getElementById('inputNama').value = data.name;
         document.getElementById('inputHarga').value = data.price_per_night;
         document.getElementById('inputKapasitas').value = data.capacity;
@@ -760,19 +773,13 @@ window.openRoomModal = (data = null) => {
         document.getElementById('inputDeskripsi').value = data.description || '';
         document.getElementById('inputFasilitas').value = (data.facilities || []).join(', ');
         
-        // PENTING: Input bertipe FILE tidak bisa diisi value-nya secara coding (Security Browser)
-        // Kita kosongkan saja, admin harus upload ulang jika ingin ganti foto
-        document.getElementById('inputGambar').value = ''; 
-        
-        // (Opsional) Jika Anda punya elemen <img> untuk preview di HTML, bisa di-set di sini
-        // document.getElementById('previewGambar').src = data.photos[0] || '';
-
+        // Ambil foto pertama jika ada
+        document.getElementById('inputGambar').value = (data.photos && data.photos.length > 0) ? data.photos[0] : '';
     } else {
         // --- MODE TAMBAH (Reset Form) ---
         document.getElementById('modalTitle').textContent = 'Tambah Kamar Baru';
         roomForm.reset();
         document.getElementById('roomId').value = '';
-        document.getElementById('inputGambar').value = ''; 
     }
 };
 
@@ -781,44 +788,34 @@ window.closeRoomModal = () => {
 };
 
 // 3. Handle Submit Form (Simpan Data)
-// 3. Handle Submit Form (Simpan Data dengan Upload Gambar)
 if (roomForm) {
     roomForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        // 1. SIAPKAN FORMDATA (Wadah khusus untuk kirim File + Teks)
-        const formData = new FormData();
-
-        // 2. AMBIL DATA TEKS & MASUKKAN KE FORMDATA
+        // Ambil Data dari Input (Gunakan ID yang Benar: inputNama, inputHarga, dst)
         const id = document.getElementById('roomId').value;
+        const name = document.getElementById('inputNama').value;
+        const price = parseInt(document.getElementById('inputHarga').value);
+        const capacity = parseInt(document.getElementById('inputKapasitas').value);
+        const quantity = parseInt(document.getElementById('inputStok').value);
+        const desc = document.getElementById('inputDeskripsi').value;
+        const image = document.getElementById('inputGambar').value;
         
-        formData.append('name', document.getElementById('inputNama').value);
-        formData.append('price_per_night', document.getElementById('inputHarga').value);
-        formData.append('capacity', document.getElementById('inputKapasitas').value);
-        formData.append('total_quantity', document.getElementById('inputStok').value);
-        formData.append('description', document.getElementById('inputDeskripsi').value);
-
-        // Khusus Fasilitas: Ubah string "Wifi, AC" menjadi Array JSON String
-        // Agar backend bisa membaca ini sebagai array (perlu di-parse di backend jika backend tidak otomatis)
+        // Ubah string fasilitas "AC, TV" -> Array ["AC", "TV"]
         const facilitiesRaw = document.getElementById('inputFasilitas').value;
-        const facilitiesArray = facilitiesRaw.split(',').map(item => item.trim()).filter(i => i);
-        
-        // Kita kirim sebagai JSON string agar aman masuk ke FormData
-        formData.append('facilities', JSON.stringify(facilitiesArray));
+        const facilities = facilitiesRaw.split(',').map(item => item.trim()).filter(i => i);
 
-        // 3. AMBIL FILE GAMBAR (PENTING!)
-        const fileInput = document.getElementById('inputGambar');
-        
-        // Cek apakah admin memilih file baru?
-        if (fileInput.files[0]) {
-            // 'photos' harus SAMA PERSIS dengan upload.single('photos') di Backend Route
-            formData.append('photos', fileInput.files[0]); 
-        }
+        const payload = {
+            name,
+            price_per_night: price,
+            capacity,
+            total_quantity: quantity,
+            description: desc,
+            facilities: facilities,
+            photos: [image]
+        };
 
-        // 4. SIAPKAN API
         const method = id ? 'PUT' : 'POST';
-        // Note: Untuk PUT (Edit) dengan Upload File, pastikan backend Anda mendukungnya.
-        // Jika backend Edit belum support upload, gambar mungkin tidak berubah.
         const endpoint = id ? `/rooms/${id}` : '/rooms';
         const token = localStorage.getItem('token');
 
@@ -826,20 +823,20 @@ if (roomForm) {
             const response = await fetch(`${API_BASE_URL}${endpoint}`, {
                 method: method,
                 headers: {
-                    // JANGAN PAKAI 'Content-Type': 'application/json' !!!
-                    // Browser otomatis menentukan Boundary untuk FormData
                     "ngrok-skip-browser-warning": "true",
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: formData // Kirim FormData, bukan JSON.stringify
+                body: JSON.stringify(payload)
             });
 
             const result = await response.json();
 
             if (response.ok) {
+                // Gunakan showToast, bukan alert
                 showToast(id ? "Kamar berhasil diperbarui" : "Kamar berhasil ditambahkan", "success");
                 closeRoomModal();
-                renderKamar(); // Refresh tabel otomatis
+                renderKamar();
             } else {
                 showToast(result.message || "Gagal menyimpan data", "error");
             }

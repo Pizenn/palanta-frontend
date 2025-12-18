@@ -60,8 +60,13 @@ function logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     updateNavUser();
-    alert('Anda telah berhasil keluar.');
-    window.location.reload(); // Reload agar state bersih
+    showNotification('Anda telah berhasil keluar.', "success");
+    setTimeout(() => {
+        // Pilih salah satu:
+        //window.location.reload(); // Reload halaman saat ini
+        // ATAU
+        window.location.href = './index.html'; // Pindah ke Home
+    }, 1500);
 }
 function updateNavUser() {
     const userDisplay = document.getElementById('userStatus');
