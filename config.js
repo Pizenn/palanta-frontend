@@ -1,3 +1,3 @@
-export const API_BASE_URL = 'https://every-cows-worry.loca.lt/api';
+export const API_BASE_URL = 'https://palanta-homestay-a8csacbygxamd8fd.indonesiacentral-01.azurewebsites.net/api';
 
-export const SERVER_URL = 'https://every-cows-worry.loca.lt';
+export const SERVER_URL = 'https://every-cows-worry.loca.lthttps://palanta-homestay-a8csacbygxamd8fd.indonesiacentral-01.azurewebsites.net';
