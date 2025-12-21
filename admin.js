@@ -239,7 +239,8 @@ async function renderPemesanan() {
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Tgl Booking</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Tamu</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Kamar</th>
-                                <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Check-in / Out</th>
+                                <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Check-In</th>
+                                <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Check-Out</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Total</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:center; border-radius:0 8px 8px 0;">Status</th>
                             </tr>
@@ -249,12 +250,13 @@ async function renderPemesanan() {
                                 // 1. Format Tanggal Cantik (Contoh: 12 Des - 14 Des 25)
                                 const bookingDate = new Date(b.created_at).toLocaleDateString('id-ID', {
                                     day: 'numeric', 
-                                    month: 'short', 
+                                    month: 'short',
+                                    year: 'numeric', 
                                     hour: '2-digit', 
                                     minute: '2-digit'
                                 });
-                                const checkIn = new Date(b.check_in_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'});
-                                const checkOut = new Date(b.check_out_date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'2-digit'});
+                                const checkIn = new Date(b.check_in_date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year: 'numeric'});
+                                const checkOut = new Date(b.check_out_date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'numeric'});
                                 
                                 // 2. Format Harga
                                 const price = b.final_price ? b.final_price : b.total_price;
@@ -293,12 +295,14 @@ async function renderPemesanan() {
                                     
                                     <td style="padding:16px; font-size:13px; color:#4b5563;">
                                         <div style="display:flex; align-items:center; gap:6px;">
-                                            <span style="font-weight:500; color:#00b894;">${checkIn}</span> 
-                                            <span style="color:#cbd5e1;">➝</span> 
-                                            <span style="font-weight:500;">${checkOut}</span>
+                                            <span style="font-weight:500; color:#00b894;">${checkIn}</span>  
                                         </div>
                                     </td>
-                                    
+                                    <td style="padding:16px; font-size:13px; color:#4b5563;">
+                                        <div style="display:flex; align-items:center; gap:6px;">
+                                            <span style="font-weight:500; color:#00b894;">${checkOut}</span>  
+                                        </div>
+                                    </td>                                    
                                     <td style="padding:16px; font-weight:700; color:#1f2937;">
                                         ${priceDisplay}
                                     </td>
