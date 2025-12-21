@@ -236,6 +236,7 @@ async function renderPemesanan() {
                         <thead>
                             <tr style="background:#f7fcfc;">
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left; border-radius:8px 0 0 8px;">ID Booking</th>
+                                <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Tgl Booking</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Tamu</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Kamar</th>
                                 <th style="padding:12px 16px; font-weight:600; color:#212121; text-align:left;">Check-in / Out</th>
@@ -246,6 +247,12 @@ async function renderPemesanan() {
                         <tbody>
                             ${bookings.length > 0 ? bookings.map(b => {
                                 // 1. Format Tanggal Cantik (Contoh: 12 Des - 14 Des 25)
+                                const bookingDate = new Date(b.created_at).toLocaleDateString('id-ID', {
+                                    day: 'numeric', 
+                                    month: 'short', 
+                                    hour: '2-digit', 
+                                    minute: '2-digit'
+                                });
                                 const checkIn = new Date(b.check_in_date).toLocaleDateString('id-ID', {day:'numeric', month:'short'});
                                 const checkOut = new Date(b.check_out_date).toLocaleDateString('id-ID', {day:'numeric', month:'short', year:'2-digit'});
                                 
@@ -271,7 +278,9 @@ async function renderPemesanan() {
                                     <td style="padding:16px; font-family:monospace; color:#6b7280; font-size:13px;">
                                         #${b.id.substring(0,8)}...
                                     </td>
-                                    
+                                    <td style="padding:16px; font-size:13px; color:#6b7280;">
+                                        ${bookingDate}
+                                    </td>
                                     <td style="padding:16px;">
                                         <div style="font-weight:600; color:#1f2937;">${b.guestName || 'Tanpa Nama'}</div>
                                         <div style="font-size:12px; color:#9ca3af;">${b.user ? b.user.email : '-'}</div>
@@ -280,6 +289,7 @@ async function renderPemesanan() {
                                     <td style="padding:16px; color:#4b5563;">
                                         ${b.roomName}
                                     </td>
+
                                     
                                     <td style="padding:16px; font-size:13px; color:#4b5563;">
                                         <div style="display:flex; align-items:center; gap:6px;">
