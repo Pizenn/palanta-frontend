@@ -1,3 +1,3 @@
-export const API_BASE_URL = 'http://localhost:5000/api';
+export const API_BASE_URL = 'palanta-homestay-a8csacbygxamd8fd.indonesiacentral-01.azurewebsites.net/api';
 
-export const SERVER_URL = 'http://localhost:5000';
+export const SERVER_URL = 'palanta-homestay-a8csacbygxamd8fd.indonesiacentral-01.azurewebsites.net';
