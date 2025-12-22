@@ -861,56 +861,6 @@ if (roomForm) {
     });
 }
 
-async function downloadReport() {
-    const month = document.getElementById('exportMonth').value;
-    const year = document.getElementById('exportYear').value;
-    const btn = document.querySelector('button[onclick="downloadReport()"]'); // Ambil tombolnya
-
-    // Ubah tombol jadi loading
-    const originalText = btn.innerHTML;
-    btn.innerHTML = 'Sedang Mengunduh...';
-    btn.disabled = true;
-
-    try {
-        const token = localStorage.getItem('token');
-        
-        // 1. Request ke Backend
-        const response = await fetch(`${API_BASE_URL}/admin/export-report?month=${month}&year=${year}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                "ngrok-skip-browser-warning": "true"
-            }
-        });
-
-        if (!response.ok) throw new Error("Gagal mengambil laporan");
-
-        // 2. Ubah Response jadi BLOB (File Mentah)
-        const blob = await response.blob();
-
-        // 3. Buat Link Download Palsu secara Virtual
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `Laporan_Bulanan_${month}_${year}.xlsx`; // Nama file
-        document.body.appendChild(a); 
-        a.click(); // Klik otomatis
-        a.remove(); // Hapus linknya
-        window.URL.revokeObjectURL(url); // Bersihkan memori
-
-        // Notifikasi Sukses (jika ada fungsi showToast)
-        if (typeof showToast === 'function') showToast("Laporan berhasil diunduh!", "success");
-
-    } catch (error) {
-        console.error(error);
-        alert("Gagal mengunduh laporan. Pastikan data bulan tersebut ada.");
-    } finally {
-        // Balikin tombol seperti semula
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-    }
-}
-
 // Jangan lupa tempel ke window agar bisa dipanggil onclick HTML
 window.downloadReport = downloadReport;
 
